@@ -1,0 +1,23 @@
+Process:         a.out [29517]
+Path:            /Volumes/VOLUME/*/a.out
+Load Address:    0x10f48b000
+Identifier:      a.out
+Version:         ???
+Code Type:       X86-64
+Parent Process:  zsh [29198]
+
+Date/Time:       2022-11-29 19:30:58.612 +0900
+Launch Time:     2022-11-29 19:30:58.216 +0900
+OS Version:      Mac OS X 10.15.7 (19H2026)
+Report Version:  7
+Analysis Tool:   /Applications/Xcode.app/Contents/Developer/usr/bin/leaks
+Analysis Tool Version:  Xcode 12.3 (12C33)
+
+Physical footprint:         312K
+Physical footprint (peak):  312K
+----
+
+leaks Report Version: 4.0
+Process 29517: 157 nodes malloced for 12 KB
+Process 29517: 0 leaks for 0 total leaked bytes.
+

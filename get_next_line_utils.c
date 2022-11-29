@@ -6,17 +6,19 @@
 /*   By: hyungjup <hyungjup@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 17:03:02 by heongjunpar       #+#    #+#             */
-/*   Updated: 2022/11/28 18:13:37 by hyungjup         ###   ########.fr       */
+/*   Updated: 2022/11/29 18:54:34 by hyungjup         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(char *s)
+size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
 	i = 0;
+	if (s == NULL)
+		return (0);
 	while (s[i])
 		i++;
 	return (i);
@@ -75,20 +77,24 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	return (src_len);
 }
 
-char	*ft_strjoin(char *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*result;
-	size_t	s1_len;
-	size_t	s2_len;
+	char	*str;
+	size_t	i;
+	size_t	j;
 
-	if (!s1 || !s2)
+	i = 0;
+	j = 0;
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!str)
 		return (NULL);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	result = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
-	if (!result)
-		return (NULL);
-	ft_strlcpy(result, s1, s1_len + 1);
-	ft_strlcat(result + s1_len, s2, s2_len + 1);
-	return (result);
+	while (s1 != NULL && s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	while (s2 != NULL && s2[j])
+		str[i++] = s2[j++];
+	str[i] = '\0';
+	return (str);
 }

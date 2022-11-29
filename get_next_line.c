@@ -6,13 +6,13 @@
 /*   By: hyungjup <hyungjup@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:19:26 by heongjunpar       #+#    #+#             */
-/*   Updated: 2022/11/28 17:55:59 by hyungjup         ###   ########.fr       */
+/*   Updated: 2022/11/29 19:30:52 by hyungjup         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*ft_get_line(char *save)
+char	*ft_get_line(char *save)
 {
 	int		i;
 	char	*str;
@@ -22,11 +22,11 @@ static char	*ft_get_line(char *save)
 		return (NULL);
 	while (save[i] && save[i] != '\n')
 		i++;
-	str = (char *)malloc(sizeof(char) * (i + 2));
+	str = (char *)malloc(sizeof(char) * (i + 1));
 	if (!str)
 		return (NULL);
 	i = 0;
-	while (save[i] && save[i] != '\0')
+	while (save[i] && save[i] != '\n')
 	{
 		str[i] = save[i];
 		i++;
@@ -40,7 +40,7 @@ static char	*ft_get_line(char *save)
 	return (str);
 }
 
-static char	*ft_save(char *save)
+char	*ft_save(char *save)
 {
 	int		i;
 	int		j;
@@ -63,30 +63,35 @@ static char	*ft_save(char *save)
 		str[j++] = save[i++];
 	str[j] = '\0';
 	free(save);
-	return (save);
+	return (str);
 }
 
-static char	*ft_read_and_save(int fd, char *save)
+char	*ft_read_and_save(int fd, char *save)
 {
-	char	*buff;
+	char	*buf;
+	char	*tmp_buf;
 	int		read_bytes;
 
-	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buff)
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buf)
 		return (NULL);
 	read_bytes = 1;
-	while (!ft_strchr(save, '\n') && read_bytes != 0)
+	while (read_bytes)
 	{
-		read_bytes = read(fd, buff, BUFFER_SIZE);
+		read_bytes = read(fd, buf, BUFFER_SIZE);
 		if (read_bytes == -1)
 		{
-			free(buff);
+			free(buf);
 			return (NULL);
 		}
-		buff[read_bytes] = '\0';
-		save = ft_strjoin(save, buff);
+		else if (read_bytes == 0)
+			break ;
+		tmp_buf = save;
+		buf[read_bytes] = '\0';
+		save = ft_strjoin(save, buf);
+		free(tmp_buf);
 	}
-	free(buff);
+	free(buf);
 	return (save);
 }
 
@@ -102,5 +107,24 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = ft_get_line(save);
 	save = ft_save(save);
-	return (save);
+	return (line);
+}
+
+
+#include <stdio.h>
+#include <fcntl.h>
+
+int main()
+{
+
+	int fd = open("y", O_RDONLY);
+	char *s = get_next_line(fd);
+
+	while (s)
+	{
+		printf("%s", s);
+		free(s);
+		s = get_next_line(fd);
+	}
+	system("leaks a.out > temp");
 }
