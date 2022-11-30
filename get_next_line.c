@@ -6,7 +6,7 @@
 /*   By: hyungjup <hyungjup@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:19:26 by heongjunpar       #+#    #+#             */
-/*   Updated: 2022/11/29 19:30:52 by hyungjup         ###   ########.fr       */
+/*   Updated: 2022/11/30 17:35:18 by hyungjup         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_get_line(char *save)
 		return (NULL);
 	while (save[i] && save[i] != '\n')
 		i++;
-	str = (char *)malloc(sizeof(char) * (i + 1));
+	str = (char *)malloc(sizeof(char) * (i + 2));
 	if (!str)
 		return (NULL);
 	i = 0;
@@ -110,21 +110,20 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
+// #include <stdio.h>
+// #include <fcntl.h>
 
-#include <stdio.h>
-#include <fcntl.h>
+// int main()
+// {
 
-int main()
-{
+// 	int fd = open("y", O_RDONLY);
+// 	char *s = get_next_line(fd);
 
-	int fd = open("y", O_RDONLY);
-	char *s = get_next_line(fd);
-
-	while (s)
-	{
-		printf("%s", s);
-		free(s);
-		s = get_next_line(fd);
-	}
-	system("leaks a.out > temp");
-}
+// 	while (s)
+// 	{
+// 		printf("%s", s);
+// 		free(s);
+// 		s = get_next_line(fd);
+// 	}
+// 	system("leaks a.out > temp");
+// }
